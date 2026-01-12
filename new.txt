@@ -472,3 +472,109 @@ server-> server hello and also sends ssl certificate -> client
 
 git config --global user.email
 
+
+JWT(JSON web token)
+CLIENT access some protective data of the server
+SERVER knows clients cannot be trusted and server only gives the data for trustworthy client
+1.client sends a request to the server get /login with username and password
+2.server creates a jwt token
+3.this token is returned to client {token:'token'}
+4.client sends a copy of jwt when making a request 
+5.server checks for jwt signature
+6.server sends a response to client {message:"hello"}
+
+
+MVC(model view controller)
+architectural pattern (govers the whole architecture of the application) design patters are used to solve specify arch problems
+mvc divides a software application in 3 parts ->model,view and controller (sepeartion of concerns)
+
+client->server->database
+client sends a request to the server and there is a layer at the begining of the server namely blue which interacts with the 
+database and fetchs the necessary Data
+model cannot fetch the data directly because the red is specialized in talking to the database
+now blue will parse the information to red and red interacts with the database and fetchs the necessary data and sends it to 
+blue and blue should ideally send the data to client but it has raw data(not in human readable format)
+another layer called green specializes in presenting data to the client
+blue gives raw data to green and green formats the data(takes the raw data and arrange them in tabular format or applying some styling)
+this formatted data is sent to the client this is how mvc works
+red: model
+green: view
+blue: controller
+client sends a request to the server then controller takes that request to model then model interacts with database and in the process
+may execute some bussiness logic required after getting data from database it passes to the controller
+controller now passes the data to view view formats the data this data is sent to the client
+model interacts with database and responisble for executing business logic(deals with data)
+view is what viewers sees on the screen generates user interface for the user 
+controller takes the input(request parameters) also interacts with model and view acts like a middle man between our model and view
+in java 
+model -> java class
+view -> jsp page
+controller -> servlet  or servlet filter
+
+high level controller layer
+1. routing-> it has a list of routes  url route and http method defined which is triggered by the user and specific data is
+present for that particular route
+2.request validation layer(middlewares)-> the incoming input request(request body) and wants some of the parameters for processing
+it validates the incoming request whether it follows the api contract or not it can directly revert back to the routing layer
+we can multiple validation 
+this layer sends the request to the controller layer if all the validation checks are done
+3. controller layer-> to call the model layer and prepare the response object 
+takes the request from routing and middlewares and pass the request to the to the model part and prepare the response object  
+of each layer is of seperate directory
+routing handles the detials of incoming routes and http methods which route and http method is allocated to which controller and 
+middleware
+middleware handles validation 
+
+high level model layer
+request it brought to the service layer
+1.service layer-> any business logic is going to reside inside this layer
+any business logic should never reside inside the controller layer
+2.repository layer-> will never contain the business logic it will contain interfaces and methods using which you will fetch the data
+repostiory layer will technically communicate with the databases
+3. high level model layer-> defines the programming interface of the databases (inside the databases the kind of data being stored)
+(storing email password user_id username address of user ) like userclass stored user stored in the database
+how the data will be stored in db -> model layer
+
+
+config folder-> any kind of configurations like environment variables or any kind of configurable data 
+utils folder-> helper methods that is reusable in multiple parts of the codebase like converting your time into a particular format
+this function can be reuse in multiple places in the codebase
+
+client (react/nextjs project)-> routing layer (this maps the http method and url routes that are supported by our app get/ping)
+routing layer-> middleware(it validates the incoming request details like request body to create a product you would need like name,city,detials of product)
+like mandatory details of the product
+middleware-> controller layer(this layer forwards the request to the server layer takes repsone from service layer and prepare http response object)
+keep this in mind-> no business logic controller should be thin there should be any bloating or too much logic should not be there
+in controller 
+
+controller layer-> service layer(all the business logic goes inside this layer) alogrithm to match the user and the cab driver
+so all this goes inside the controller layer 
+keep this in mind-> each layer is a folder and every folder will have multiple files then forwards the request for executing business logic
+and needs data
+service layer-> repoistory layer(this layer is responible for providing data to service layer)
+maybe same type of data might be required in multiple services like service matching users and riders or service mantaining details of the user
+one service shows the rider's history so multiple services needs the same kind of data 
+not requeired to implment the same kind everywhere one method in repo layer and everyone will call that method
+
+database-> actual data exists here
+
+repository layer->models(gives blueprint about how the data should in the database they mainly have classes)
+(these classes represnets how the data will look in the database)
+
+optional folders
+config folder-> this contains any configuration example-> env variables
+utils folder-> any reusable helper methods goes here 
+
+model represnets how the data looks in the database
+repoistory contains the logic to retrieve the data from the database 
+connect to the database servers there is tcp connection setup between your codebase and database then query the data
+some languages/frameworks repo layer directly connects to the database
+model has one responsibility to determine how the data looks in the database
+
+database returns data in the form of json
+actual classes is present inside the models 
+but in some languages/frameworks repo layer cannot communicate directly to the database and instead the logic for db connection exists within 
+the models
+
+raw querys can be written in the repo layer use case of migration of services and representing the data and fetching of the data
+make the code as modular as possible 
