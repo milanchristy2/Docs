@@ -1,0 +1,474 @@
+Rest - > simple stateless follows 
+1. What is REST?
+REST (Representational State Transfer) is an API architectural style used to design web services.
+In REST:
+Everything is treated as a resource
+Resources are identified using URLs
+Communication happens over HTTP
+Data is usually exchanged in JSON
+Example
+https://api.example.com/users/101
+
+2. Key Principles of REST
+Client–Server Architecture
+Client and server are separate; they communicate via requests and responses.
+Statelessness
+Each request contains all the information needed.
+The server does not store client state.
+Uniform Interface
+Standard HTTP methods are used.
+Resource-Based
+Data is accessed via resource identifiers (URIs).
+Cacheable
+Responses can be cached to improve performance.
+
+REST HTTP Methods and Their Components
+Each REST method consists of components:
+HTTP Method
+URL (Endpoint)
+Headers
+Request Body (if applicable)
+Response
+
+1. GET – Retrieve Data
+Used to fetch data from the server.
+Components
+Method: GET
+URL: /users/101
+Headers: Authorization, Content-Type
+Body: ❌ Not used
+Response: Data + status code
+
+Example
+GET /users/101
+Common Status Codes
+200 OK
+404 Not Found
+
+
+2. POST – Create New Resource
+Used to send data to the server to create a new resource.
+Components
+Method: POST
+URL: /users
+Headers: Content-Type, Authorization
+Body: Data to create resource
+Response: Created resource
+Example
+
+
+Example
+POST /users
+{
+  "name": "Alice",
+  "email": "alice@example.com"
+}
+Common Status Codes
+201 Created
+400 Bad Request
+
+3. PUT – Update Entire Resource
+Used to replace an existing resource completely.
+Components
+Method: PUT
+URL: /users/101
+Headers: Content-Type
+Body: Complete updated data
+Response: Updated resource
+Example
+PUT /users/101
+{
+  "name": "Alice Smith",
+  "email": "alice.smith@example.com"
+}
+Common Status Codes
+200 OK
+204 No Content
+
+4. PATCH – Update Partial Resource
+Used to update part of a resource.
+Components
+Method: PATCH
+URL: /users/101
+Headers: Content-Type
+Body: Only fields to change
+Response: Updated resource
+Example
+PATCH /users/101
+{
+  "email": "newemail@example.com"
+}
+Common Status Codes
+200 OK
+
+5. DELETE – Remove Resource
+Used to delete a resource.
+Components
+Method: DELETE
+URL: /users/101
+Headers: Authorization
+Body: ❌ Usually not used
+Response: Confirmation
+Example
+DELETE /users/101
+Common Status Codes
+Common Status Codes
+200 OK
+204 No Content
+
+| Method | Purpose     | Request Body | Example      |
+| ------ | ----------- | ------------ | ------------ |
+| GET    | Read data   | ❌ No         | Get user     |
+| POST   | Create data | ✅ Yes        | Add user     |
+| PUT    | Update all  | ✅ Yes        | Replace user |
+| PATCH  | Update part | ✅ Yes        | Modify user  |
+| DELETE | Delete data | ❌ No         | Remove user  |
+
+
+
+
+5. REST Request–Response Components (Exam-Friendly)
+Request Components
+HTTP Method
+URL / Endpoint
+Headers
+Body (optional)
+Response Components
+Status Code
+Headers
+Response Body
+
+
+
+
+POST /users HTTP/1.1
+Host: api.example.com
+Content-Type: application/json
+
+{
+  "name": "John"
+}
+
+Concurrency vs Parallelism
+
+| Feature          | Concurrency                 | Parallelism                |
+| ---------------- | --------------------------- | -------------------------- |
+| Meaning          | Managing many tasks at once | Running many tasks at once |
+| Execution        | Tasks overlap in time       | Tasks run simultaneously   |
+| CPU cores needed | Single or multiple          | Multiple required          |
+| Focus            | Structure & design          | Performance & speed        |
+| Switching        | Context switching           | No switching               |
+| Best for         | I/O-bound tasks             | CPU-bound tasks            |
+| Example          | Async API requests          | Multi-core data processing |
+
+
+Components 
+
+URL ENDPOINT 
+Headers
+Request Body
+Response
+
+
+
+
+| HTTP Method | Purpose                   | Used For                 | Request Body | Idempotent* | Example                |
+| ----------- | ------------------------- | ------------------------ | ------------ | ----------- | ---------------------- |
+| **GET**     | Retrieve data from server | Reading a resource       | ❌ No         | ✅ Yes       | Get user details       |
+| **POST**    | Send data to server       | Creating a new resource  | ✅ Yes        | ❌ No        | Create new user        |
+| **PUT**     | Replace existing resource | Updating entire resource | ✅ Yes        | ✅ Yes       | Update user completely |
+| **PATCH**   | Modify part of a resource | Partial update           | ✅ Yes        | ❌ No        | Update email only      |
+| **DELETE**  | Remove a resource         | Deleting data            | ❌ No         | ✅ Yes       | Delete user            |
+| **HEAD**    | Retrieve headers only     | Check resource existence | ❌ No         | ✅ Yes       | Check if file exists   |
+| **OPTIONS** | Get allowed methods       | CORS & API discovery     | ❌ No         | ✅ Yes       | Allowed API methods    |
+| **TRACE**   | Echo request              | Debugging                | ❌ No         | ❌ No        | Test request path      |
+| **CONNECT** | Create tunnel             | HTTPS via proxy          | ❌ No         | ❌ No        | Secure tunneling       |
+
+
+monolithic and microservices Architecture
+
+controller layer-> service layer->repostiory layer 
+
+
+client->controller layer->service layer->repostiory layer (db)
+
+controller layer-> layer to write controller is the first entry point of the fastapi application which have the apis that client calls
+cl-> takes the requests no business logic and forwards the request to service layer in order to do some processing of business logic
+cl-> get the data from the client and forward it to service and whatever service is returning and forward it to the client
+
+service layer-> all the business operations happen in the service layer any modifications or population of the data
+sl-> this layer forwards it to repostiory layer and calls the repostiory layer
+
+repostiory layer-> is to talk to the database fetch the data from db and return it to the service layer
+service layer-> takes ther response from the repostiory layer and give it to controller layer
+
+even service layer can talk to database and fetch the data but it is not good practice 
+
+src/
+app/
+│
+├── main.py
+│
+├── api/
+│   ├── v1/
+│   │   ├── routes/
+│   │   │   └── user_controller.py
+│   │   └── router.py
+│
+├── services/
+│   └── user_service.py
+│
+├── repositories/
+│   └── user_repository.py
+│
+├── models/
+│   └── user_model.py
+│
+├── schemas/
+│   └── user_schema.py
+│
+├── db/
+│   ├── database.py
+│   └── session.py
+│
+└── core/
+    └── config.py
+
+
+Client
+  ↓
+Controller (API Route)
+  ↓
+Service (Business Logic)
+  ↓
+Repository (Database)
+  ↓
+Database
+
+why do we need a translator?
+computer program is written in high level programming language(humans can understand better) low level programming language(machine can understand better)
+machines can only understand 0s and 1s and not high level programming language
+translator is a piece of software that converts a high level programming language to binary language which can be understood by machines
+types of translator-> compiler and interpreter
+
+compiler-> is a complex piece of software used to convert source code to binary code in one go
+c is complied programming language
+
+machine(complier)-> executable code(.exe in windows and .app in macos)
+
+pass the executable code to another machine and compile it to produce the output
+
+sum.c,.exe and sum.o
+sum.o->object file 
+.exe executable can run on any windows machine
+the other machine can just take this executable and run it
+
+interpreter->software program written to translate source code to machine code line by line
+
+machine-> has the soruce code
+then copy of source code is sent to other machine
+interpreter must be installed in other machine
+interpreter translates the code on the fly(run time) line by line
+interpreter never generates an executable translate each line of code at run time and generate output on the screen
+browser is example for interpreter
+
+python is both interperted and compiled language(hybrid language)
+source code(.py)->compiler(bytecode .pyc)->virtual machines(interperter is part of it which generates machine code on the fly and see the output generated)
+
+to see the bytecode use the module py_compile py_compile.compile()
+
+
+networking concepts
+ip address->identifier house address for mail delivery 
+http request-> http response<-(public ip address)
+
+domain name system
+translates ip address to human readable names so that browser can find the website
+
+ports->numbered channels on a server ranging from 1 to 65535
+different apps listen on different ports
+standard ports-> 80(web apps),3306(mysql)
+every port is unique for every device and every app needs a port 
+
+network segementation 
+subnets-> let us divide our network into seperate sections
+frontend servers(public facing)->subnet A(ip->10.0.1.x)
+application->subnet B(10.0.2.x)
+database-> subnet C(10.0.3.x)
+
+routing directs traffic between different routing segments
+when the network needs data from the database router will determine the path (gps for network data)
+
+firewalls->security guard that checks every piece of traffic and decides whatever to allow based
+on the rules we set 
+host firewalls network firewalls
+
+private ip address work inside your own network
+
+network address translation allows multiple devices with private ip address  to share one public ip address when accessing the internet
+
+all the backend servers can reach the internet through one ip address
+
+moving to cloud-> someone else manages the hardware and  increase or decrease our capacity
+
+need -> ip,ports,subnets,routing,firewalls,nat
+
+virtual private cloud-> isolated section of cloud provider's network
+
+internet gateway to connect our public subnets to the internet
+
+
+microservices Architecture
+
+containers packs everything an application needs
+
+container networks
+bridge network->all containers connected to the same bridge network can communicate
+with each other using just container names
+port mapping
+overlay networks->virtual network that spans multiple hosts making containers appear on different servers
+as if they were on the same network
+
+kubernetes-> automotes container management
+pod-> basic unit group of one or more containers that work closely together in a container per pod
+kubernetes services-> stable ip address dns name that will never change
+
+k8 clusters
+
+ingress-> single ingresss can handle all incoming traffic into the cluster and route it to
+correct cluster based on the rules we configured
+
+
+monolithic Architecture-> the application is treated as a single unit
+where frontend,backend and database are all part of one codebase and usually one deployment
+
+Characteristics
+Single codebase
+Single database
+Single deployment unit
+Components are tightly coupled
+
+Advantages
+✔ Simple to develop (good for beginners)
+✔ Easy to deploy
+✔ Easier debugging
+✔ Less infrastructure needed
+
+❌ Disadvantages
+❌ Hard to scale specific features
+❌ Large codebase becomes hard to maintain
+❌ One bug can affect entire app
+❌ Slower deployments as app grows
+
+
+microservices architecture-> breaks the application into small and independent services
+Each service:
+Has a single responsibility
+Runs independently
+Communicates via HTTP / REST / gRPC / message queues
+Can be deployed independently
+
+Characteristics
+Multiple small services
+Each service has its own database
+Independent deployment
+Loosely coupled
+Communicate via APIs
+
+
+Advantages
+✔ High scalability
+✔ Fault isolation (one service fails, others still work)
+✔ Faster deployments
+✔ Different technologies per service
+✔ Easier for large teams
+
+
+❌ Disadvantages
+❌ Complex architecture
+❌ Harder to debug
+❌ Network latency
+❌ Requires DevOps skills
+❌ More infrastructure cost
+
+| Feature         | Monolithic | Microservices           |
+| --------------- | ---------- | ----------------------- |
+| Codebase        | Single     | Multiple                |
+| Deployment      | One unit   | Independent services    |
+| Scalability     | Entire app | Per service             |
+| Database        | Single     | Per service             |
+| Technology      | Same stack | Can vary                |
+| Fault isolation | Poor       | Excellent               |
+| Complexity      | Low        | High                    |
+| Best for        | Small apps | Large, scalable systems |
+
+
+Transport layer security 
+tcp handshake  certificate check key exchange and data transmission
+
+assymmetric encryption(public key,private key)
+
+RSA is a method for session key exchange
+BUT nowadays diffie-hellmen is a more comman way of exchanging session key
+
+
+vertical scaling-> add more resources like ram or upgrade the cpu of the server(very limited)
+replicas(better approach)-> to handle a subset of requests
+
+horizontal scaling-> more powerful because it adds redudancy and fault tolerance this elimnates
+single point of failure (complicated process)
+
+load balancer->server known as reverse proxy directs incoming requests to the appropirate server
+
+algorithm-> round robin which balance by cycling through our pool of servers 
+hashing-> hashing the incoming request id
+
+content delivery networks->network of servers located all around the world
+
+caching-> creating copies of data so that it can be refetched faster in the future
+
+ip address
+
+tcp/ip 
+dns-> googledomains
+
+https(application layer protocol)
+
+api paradigms-> rest,graphql,grpc
+grpc framework-> used for server-server communication  
+
+protocol buffers vs json
+
+websocktes-> supports bidrectional comunication 
+
+database mangement systems
+consistency 
+sharding
+replication-> leader-follower replication leader-leader replication
+CAP theorem->to weigh tradeoffs with replicated design consistency avaliability and partition
+
+message queues->data can be persisted using them and many apps can become decoupled 
+
+RAG
+
+1.fetch relevant information from database
+2.when querying the LLM 
+3.at that time we give question + context from db
+4.use this information to answer the question 
+
+
+SSL stands for Secure Socket layer protocol that encrypts data that is transmitted between computers
+TLS stands for Transport Layer Security newer version of SSL but with best secuirty practices
+
+SSL is depreciated way back 2015
+if it is http-> unsecure
+https-> 's' being secuirty
+
+handshake-> browser and server engage in an handshake to establish secure connection
+
+
+client-> client hello -> server
+server-> server hello and also sends ssl certificate -> client
+
+git config --global user.email
+
