@@ -1018,3 +1018,10 @@ AUTHENTICATION-> who are you?
 AUTHORIZATION-> what are allowed to do?
 login to a website-> authenication and verifies identity
 determines access-> authorization
+
+FOR GITHUB SSO 
+
+GitHub Client ID
+Ov23lim6OGyn4mV4vL25
+Github Client Secrets
+374db31f2fbe30de8c85f66570e28dd9f029bfde
