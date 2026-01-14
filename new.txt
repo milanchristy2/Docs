@@ -779,4 +779,66 @@ def get_age_with_name(name:str,age:int):
     return name_with_age
 
 print(get_age_with_name("john",23))
+
+
+
+
+Design Patterns and ORM
+CREATIONAL->singleton,prototype,builder and factory 
+creational patterns are how objects are created
+STRUCUTURAL->facade,proxy
+sturctural patterns are how objects related to each other
+BEHAVIOURAL->iterator,observer,mediator,state
+behavioural patterns are how objects communicate with each other
+
+CREATIONAL
+Singleton-> type of object that can only be instantiated once
+Prototype-> fancy word of clone alternative way to implement inheritance
+but instead of inheriting functionality from a class it comes from an object
+that is already been created
+Builder->we create the object step by step using methods rather than the Constructor
+delegate the building logic to an entirely different class (method chaninig)
+Factory-> instead of using new keyword to instantiate an object we can use a function 
+or method 
+
+STRUCUTURAL
+Facade->face of the building it is bascially a simplified API to hide your low level details
+in your codebase almost every packages that is installed in javascript is type of facade in a way
+Proxy->fancy word for substitute you can replace a target object with a proxy 
+case study to do that -> Reactivity system in vue.js 
+a proxy takes  the original object as the first argument then a handler as second argument inside
+which methods can be override 
+proxies are also commonly used that when you have a very large object that would be expensive to 
+duplicate in memory
+
+BEHAVIOURAL
+Iterator->allows you to traverse through a collection of objects it is a pull based system
+Observer-> it is a push based system allows many objects to subscribe to any events that 
+are broadcast by another object like a one-to-many-relationship it is like a loop that
+unfolds over the dimension of time
+Mediator->middleman or broker like objects have to communicate with each in case of many-to-many
+like in express.js request->middleware->response middleware provides seperation of concerns and 
+code duplication
+State->an object behaves differently in a finite number of states like during coding switch statements
+(switch hell-> code doesn't scale really well) idea is realted to state machines and libraries like
+xstate to make an object's behaviour predictable based on the underlying state   
+
+ORM(object realtional mapping)
+technique that bridges the gap between object oriented programming languages and databases 
+
+How it works: An ORM framework acts as an abstraction layer. Developers define how their code objects (e.g., a User class) map to database tables (e.g., a Users table) using metadata, configuration files, or annotations. The ORM then automatically generates the necessary SQL queries to perform database operations (Create, Read, Update, Delete - CRUD), so developers can interact with data using their familiar programming language syntax instead of writing raw SQL.
+Key Benefits:
+Increased Productivity: Automates repetitive data-access code (boilerplate code), allowing developers to focus on business logic.
+Abstraction: Hides the underlying database details, making it easier to switch between different database systems with minimal code changes.
+Improved Security: ORMs typically use parameterized queries, which helps prevent SQL injection attacks
+
+ORM and Design Patterns: The Connection
+ORMs are software tools and, as complex systems, they are built using various design patterns to achieve their functionality. Furthermore, specific design patterns describe different strategies for implementing the ORM concept itself. 
+Key patterns used in the context of ORM, as described by Martin Fowler in Patterns of Enterprise Application Architecture, include:
+Active Record: A pattern where an object wraps a database row and the object itself contains the data access methods (like save() or find()). This is a simple and intuitive approach, used by frameworks like Ruby on Rails' ActiveRecord.
+Data Mapper: This pattern creates a clear separation between the in-memory objects (business logic) and the database persistence logic. A separate "mapper" class or layer is responsible for transferring data between the two, which makes the domain objects persistence-agnostic and easier to test. This is used by frameworks such as Hibernate and SQLAlchemy.
+Unit of Work: This pattern maintains a list of objects affected by a business transaction and coordinates the writing of changes to the database as a single, consistent unit of work, often at the end of a transaction.
+Data Access Object (DAO): A pattern used to abstract the data access logic to a separate, lightweight interface, which can be a layer within a larger ORM implementation
+
+
   
