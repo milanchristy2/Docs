@@ -667,3 +667,116 @@ data soruce
 original text->text splitter->chunks of text->embeddings
 
 embeddings are representation of text to capture their meaning literally list of numbers in python
+
+
+python decorators
+
+it helps you add extra behaviour to a function without changing the function's code
+decorator is a function that takes another function as input without changing the function's code
+
+we define decorator first and then apply it with @decorator_name above the function
+
+def changecase(func):
+  def inner():
+    return func().upper()
+  return inner
+
+@changecase
+def function():
+  return "hello sally"
+
+print(function())
+
+
+By placing @changecase directly above the function definition, the function myfunction is being "decorated" with the changecase function.
+
+The function changecase is the decorator.
+
+The function myfunction is the function that gets decorated.
+
+Multiple Decorator Calls
+A decorator can be called multiple times. Just place the decorator above the function you want to decorate.
+
+
+def changecase(func):
+  def inner(x):
+      return func(x).upper()
+  
+  return inner
+
+@changecase
+def function(name):
+    return "hello"+name
+  
+print(function("sally"))
+
+
+args-> a function that takes any number of  positional arguments
+
+def my_function(*args):
+  print(type(args))
+  print(args[0])
+  print(args[1])
+  print(args[2])
+
+my_function("john","suresh","john")
+
+
+kwargs-> a function that accepts any number of keyword arguments
+
+"type hints" or annotations are special syntax that allows declaring a type of variable 
+By declaring types for your variables, editors and tools can give you better support.
+
+
+def get_names(first_name:str,last_name:str):
+  full_name=first_name.title()+" "+last_name.title()
+  return full_name
+
+print(get_names("john","doe"))
+
+codes:
+def changecase(func):
+    def inner(x):
+        return func(x).upper()
+    return inner
+
+@changecase
+def function(name):
+    return "hello "+name
+
+# print(function("sally"))
+
+def function1(*args):
+    print("type",type(args))
+    print("first augement",args[0])
+    print("second augement",args[1])
+    print("thrid augement",args[2])
+
+# function1("tobias","john","duke")
+
+def my_function(greeting,*names):
+    for name in names:
+        print(greeting,name)
+
+# my_function("Hello","sally","john","milton","kumar")
+
+def func1(**var):
+    print("type",type(var))
+    print("name ",var["name"])
+    print("age ",var["age"])
+    print("data ",var)
+    
+# func1(name='John',age="25",city="Hyderabad")
+
+def get_names(first_name:str,last_name:str):
+    full_name=first_name.title()+" "+last_name.title()
+    return full_name
+    
+# print(get_names("john","doe"))
+
+def get_age_with_name(name:str,age:int):
+    name_with_age=name+" is "+str(age)+" years old"
+    return name_with_age
+
+print(get_age_with_name("john",23))
+  
