@@ -982,3 +982,39 @@ Data Access Object (DAO): A pattern used to abstract the data access logic to a 
 + # Command to run the application
 + CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 + 
+
+
+API AUTHENTICATION
+it is a technique used to verify the identity of client or user trying to access an api
+without authentication it could lead to data leaks breaches and unauthorized use of services
+primary benefit-> ensure security it ensures that only authorized clients can access the apis
+reducing the risk of malicious attacks data breaches or unauthorized use of resources/sensitive
+data
+it allows api provides to control access   based on the user's identity
+different cleints have different permissions enusring users can access data or services they are
+authroized for
+Monitor usage patterns which can apply rate limit or throttle access to ensure api isn't overwhelmed 
+by too many requests  from a single source
+http based authentication-> simpliest form of authenication where client sends username or password 
+at the http header encoded in base64 not very secure since credentials are sent with every request which
+are not hashed or encrypted by default making this method insecure   
+api key authenication-> client sends an unique api key that acts as their identifier when making api requests
+key is issues by the api provider   to client enabling to montior usage and control access
+limited control function simple to password    
+Jwt-> it is a compact stateless mechanism for api authenication  
+when a user logs onto a application the api server creates a digitally signed and encrypted jwt
+that includes the user's identity then client includes the jwt in every susbquent request 
+which the server deserializes and validates 
+the user data is not stored on the server's side which improves scalability
+jwt authenication is popular because it allows the server to issues tokens that
+client can use to autehnicate themselves for future request
+the token contains info about user and sign it can't be tempered with
+stateless does not store session data
+Oauth->more secure allows users to autehnicate via third party service like google or facebook
+without having to share their credentials with api itself
+Oauth2->access tokens that can expired or revoked providing more granular control
+oauth2.0->
+AUTHENTICATION-> who are you?
+AUTHORIZATION-> what are allowed to do?
+login to a website-> authenication and verifies identity
+determines access-> authorization
