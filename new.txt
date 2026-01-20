@@ -1075,3 +1075,144 @@ scalability
 
 
 
+optical character recongition(ocr)
+ocr converts hand written text into machine-readable text for editing searching or data extraction from images or scanned documents 
+OCR has come a long way to automate  complex documents both in terms of speed an aaccuracy 
+meaning formatted information can retain it's sturcture after being scanned 
+
+it idenitifies the area of text
+it figures out the lines of text,spacing between words and all sorts of document elements.
+and onc loaded to the characters they're rendered to a high contrast called a bitmap
+and from there they can be processed by any number of algorithms
+the most common alogrithm is pattern recongition
+pattern recongition involves 
+training the model with a very large set of characters
+comparing the identified character and finding the closest matching one   
+
+another common alogirthm is known as feature analysis 
+it relies on characterisitcs of each individual character like how many lines it has,whether is has curved lines or if any of those 
+lines intersect with each other
+it is more rule based and requires a deeper level of understanding of those characters 
+
+nowadays, 
+ocr can find and read a license plate even when it's travelling on a vehicle under a toll bridge like 65 miles per hour perhaps 
+even faster ocr combined with ai is a winning combination 
+
+ocr involves detection of text content on images and translation of those images into encoded text that a computer can understand easily 
+it is acheived for computers it is a series of dots or pixels
+image is first scanned text graphics and elements are converted into bitmap(matrix with black and white dots) 
+image is then preprocessed where brightness and contrast are enhanced to improve the accuracy of process 
+image is split into zones identifying areas of interest where the images and text are this helps in curve extraction process
+the areas containing the text can now be broken down into further lines or characters
+now the ocr engine or software is able to match the characters through comparison and various ai techinques 
+the final result is the text in the image that we're given
+not 100% accurate
+error correction can be acheived thorugh nlp or dictionary
+application
+ocr is used in airports to automate the process passport recongition,extraction from information 
+detection and recongition of car number plates
+
+how does ocr acutally work?
+load an image
+preprocess it(for handwritten text)
+send it to tesseract ocr engine  with right configuration
+
+configuration of ocr engine
+
+config="--oem 1 --psm 8"
+--oem =>ocr engine mode
+1 => neural networks(lstm)
+8 => single word   
+--psm =>page segementation mode
+
+
+
+example 
+# # import cv2
+# # # import numpy as np
+# # import pytesseract
+# #
+# # pytesseract.pytesseract.tesseract_cmd="/opt/homebrew/bin/tesseract"
+# #
+# # #core functionality of ocr
+# # img=cv2.imread("image copy.jpg")
+# #
+# # def ocr_core(img):
+# #     text=pytesseract.image_to_string(img)
+# #     return text
+# # #TO GRAYSCALE THE IMAGE
+# # def img_to_gray(img):
+# #     return cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+# #
+# # #TO REMOVE THE NOISE TO MAKE IT MORE SHARP
+# # def remove_noise(img):
+# #     return cv2.medianBlur(img,5)
+# #
+# # #thresholding if pixel value above threshold it is black or white and it is below the threshold it is some
+# # #other colour
+# # def threshodling(img):
+# #     return cv2.threshold(img,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)[1]
+# #
+# #
+# # img=img_to_gray(img)
+# # img=threshodling(img)
+# # img=remove_noise(img)
+# #
+# # print(ocr_core(img))
+# #
+# #
+# #
+# # import pytesseract
+# # from PIL import Image
+# # pytesseract.pytesseract.tesseract_cmd="/opt/homebrew/bin/tesseract"
+# # img=Image.open("image.jpg")
+# # text=pytesseract.image_to_string(img)
+#
+# # print(text)
+# import pytesseract
+# import cv2
+# from PIL import Image
+# pytesseract.pytesseract.tesseract_cmd="/opt/homebrew/bin/tesseract"
+# img=cv2.imread("handwritten.jpg")
+#
+# def ocr_core(img):
+#     config="--oem 1 --psm 8"
+#     text=pytesseract.image_to_string(img,config=config)
+#     return text
+#
+# def gray_scale(img):
+#     grey=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+#     return grey
+#
+# def remove_noise(img):
+#     return cv2.medianBlur(img,3)
+#
+# def thresholding(img):
+#     return cv2.threshold(img,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)[1]
+#
+# img=gray_scale(img)
+# img=thresholding(img)
+# img=remove_noise(img)
+#
+# print(ocr_core(img))
+
+# from gtts import gTTS
+# language="en"
+# text="""
+# Life is a rollercoaster, full of ups and downs.
+# Sometimes you have to bite the bullet and face challenges head-on.
+# Every cloud has a silver lining, and good things come to those who wait.
+# I try to keep my eyes on the ball and not let small setbacks get under my skin.
+# At the end of the day, it's all water under the bridge, and tomorrow is a new day.
+#
+#
+# """
+# speech=gTTS(text=text,lang=language,slow=False,tld="co.in")
+# speech.save("test.mp3")
+# #
+import whisper
+
+model=whisper.load_model("base")
+
+res=model.transcribe("test.mp3")
+print(res["text"])
