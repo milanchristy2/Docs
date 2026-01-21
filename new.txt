@@ -1245,3 +1245,10 @@ two types of signing alogirthms-> symmetric algorithms like HMACSHA256(used a sh
 signing and verification)
 assymmetric alogirthms->RSA uses a public/private key pair where private key signs the token and public key
 verifies it
+
+12 factors app methodology
+cpu architecture
+arm processors
+
+
+poetry is used for dependencies for LIBROAPI assignement(1)
