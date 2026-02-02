@@ -1617,3 +1617,5 @@ agent to search anything we want
 supervisor agent uses research agent to find those responses and then those responses will be saved 
 in the memory agent for future
 the supervisor agent will retreive it from the memory agent instead of using custom agent
+
+rag strategies
